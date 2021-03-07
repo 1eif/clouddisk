@@ -19,6 +19,9 @@
     <Filter Include="核心处理">
       <UniqueIdentifier>{a39aa211-08e5-4815-a6c9-d0c87530c74b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="协议">
+      <UniqueIdentifier>{a5db0797-e131-4a17-88e0-5569a7081c50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -43,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="..\Kernel\TCPKernel.h">
       <Filter>核心处理</Filter>
+    </ClInclude>
+    <ClInclude Include="Packdef.h">
+      <Filter>协议</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

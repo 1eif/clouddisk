@@ -43,7 +43,7 @@ bool TCPNet::InitNetWork()
 	if(INVALID_SOCKET == m_sockListen)
 	{
 		UnInitNetWork();
-        return false;
+        return false; 
 
 	}
 	//3.bind
@@ -64,7 +64,7 @@ bool TCPNet::InitNetWork()
         return false;
 	}
 
-	//5.--创建线程--accept()
+	//5.--创建线程--accept()  不创建会阻塞主线程
 	m_hThread =(HANDLE) _beginthreadex(0,0,&ThreadProc,this,0,0);
 	if(m_hThread)
 		m_lstThread.push_back(m_hThread);
@@ -73,6 +73,7 @@ bool TCPNet::InitNetWork()
 
 	return true;
 }
+
 
 unsigned  __stdcall TCPNet::ThreadProc( void * lpvoid)
 {
@@ -93,9 +94,30 @@ unsigned  __stdcall TCPNet::ThreadProc( void * lpvoid)
 unsigned  __stdcall TCPNet::ThreadRecv( void * lpvoid)
 {
 	SOCKET sockWaiter = (SOCKET)lpvoid;
+	int nPackSize;
+	int nRelReadNum;
+	char *pszbuf = NULL;
 	while(TCPNet::m_bFlagQuit)
 	{
 		//recv --接收数据
+		//接收包大小
+		nRelReadNum = recv(sockWaiter, (char*)&nPackSize, sizeof(int), 0);
+		if (nRelReadNum <= 0)
+		{
+			printf("error code :%d\n", GetLastError());
+			continue;
+		}
+			
+		//接收包内容
+		pszbuf = new char[nPackSize];
+		int offset = 0; //解决粘包问题
+		while (nPackSize)
+		{
+			nRelReadNum = recv(sockWaiter, pszbuf + offset, nPackSize, 0);
+			offset += nRelReadNum;
+			nPackSize -= nRelReadNum;
+		}
+		
 	}
 	return 0;
 }
