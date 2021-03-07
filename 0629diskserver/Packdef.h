@@ -70,6 +70,8 @@
 #define UM_GETFILELISTMSG  WM_USER + 2
 #define UM_UPLOADSUCCESSMSG  WM_USER +3
 #define UM_UPLOADFILEPOSMSG  WM_USER +4
+
+//包类型
 typedef char PackType;
 //注册包
 struct STRU_REGISTER_RQ
@@ -79,7 +81,7 @@ struct STRU_REGISTER_RQ
 	char   m_szName[_DEF_SIZE];
 	char   m_szPassword[_DEF_SIZE];
 };
-
+//注册回复包
 struct STRU_REGISTER_RS
 {
 	PackType  m_ntype;
@@ -93,7 +95,7 @@ struct STRU_LOGIN_RQ
 	//char   m_szName[_DEF_SIZE];
 	char   m_szPassword[_DEF_SIZE];
 };
-
+//登录回复包
 struct STRU_LOGIN_RS
 {
 	PackType  m_ntype;
@@ -106,18 +108,18 @@ struct STRU_GETFILELIST_RQ
 	PackType  m_ntype;
 	long long m_userid;
 };
-
+//单个文件信息
 struct FileInfo
 {
 	char m_szFileName[_DEF_SIZE];
 	char m_szUpLoadTime[_DEF_SIZE];
 	long long m_FileSize;
 };
-
+//获取文件列表回复
 struct STRU_GETFILELIST_RS
 {
 	PackType  m_ntype;
-	FileInfo m_aryFile[_DEF_FILENUM];
+	FileInfo m_aryFile[_DEF_FILENUM];//文件列表
 	int      m_nFileNum;
 };
 
